@@ -8,6 +8,14 @@ const server = http.createServer(async (req, res) => {
         res.setHeaders("Content-Type", "application/json")
         res.statusCode = 200
         res.end(JSON.stringify(destination))
+    } else if (req.url.startsWith("/api/continent") && req.method === "GET") {
+        const continent = req.url.split('/').pop()
+        const filteredData = destination.filter( (destination) => {
+            return destination.continent.toLowerCase() === continent.toLowerCase()
+        })
+        res.setHeaders("Content-Type", "application/json")
+        res.statusCode = 200
+        res.end(JSON.stringify(filteredData))
     } else {
         res.setHeaders("Content-Type", "application/json")
         res.statusCode = 404
