@@ -8,8 +8,10 @@ const PORT = 8000
 const server = http.createServer(async (req, res) => {
 
     const destination = await getDataFromDB()
+    const urlObj = new URL(req.url, `http://${req.headers.host}`)
+    const queryObj = Object.fromEntries(urlObj.searchParams)
 
-    if (req.url === "/api" && req.method === "GET") {
+    if (urlObj.pathname === "/api" && req.method === "GET") {
         sendJSONResponse(res, 200, destination)
 
     } else if (req.url.startsWith("/api/continent") && req.method === "GET") {
